@@ -1,0 +1,7 @@
+development:
+    driver: mysql
+    open: root:secret@tcp(localhost:3306)/logaudit
+
+production:
+    driver: mysql
+    open: root:supersecret@tcp(db.example.com:3306)/logaudit

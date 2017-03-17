@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  worker:
+    image: transitorykris/logaudit-worker
+    build: ./worker
+    environment:
+      APP_DB: root:secret@tcp(mysql:3306)/logaudit?parseTime=true
+      APP_LOG_URL: https://key.upspin.io/log
+      APP_INTERVAL: "* * * * *"
+      APP_AWS_ACCESS_KEY: ABCD1234
+      APP_AWS_SECRET_KEY: ZXYW9876
+      APP_AWS_REGION: us-west-2
+    links:
+      - mysql
+  api:
+    image: transitorykris/logaudit-www
+    build: ./www
+    environment:
+      APP_BIND: :8080
+      APP_DB: root:secret@tcp(mysql:3306)/logaudit?parseTime=true
+      APP_AWS_ACCESS_KEY: ABCD1234
+      APP_AWS_SECRET_KEY: ZXYW9876
+      APP_AWS_REGION: us-west-2
+    links:
+      - mysql
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: logaudit
+    volumes:
+      - /var/lib/mysql

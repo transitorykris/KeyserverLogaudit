@@ -1,0 +1,6 @@
+
+username: ann@example.com
+secrets: upspin
+storeserver: remote,example.com:443
+dirserver: remote,example.com:443
+packing: ee
